@@ -41,7 +41,7 @@ def prepare_data():
     cols = ["glcm_contrast_Scaled", "glcm_dissimilarity_Scaled", "glcm_homogeneity_Scaled", "glcm_energy_Scaled",
             "glcm_correlation_Scaled", "glcm_ASM_Scaled"]
 
-    train_X = train[cols].iloc[:20000, :]
+    train_X = train[cols].iloc[:40000, :]
     test_X = test[cols]
 
     def convert(x):
@@ -56,7 +56,7 @@ def prepare_data():
     train = train.drop(['Class_x'], axis=1)
     test = test.drop(['Class_x'], axis=1)
 
-    train_Y = train.iloc[:20000, :]['Class']
+    train_Y = train.iloc[:40000, :]['Class']
     test_Y = test['Class']
     train_feat_new = np.repeat(np.array(train_X), 26, axis=1)
     test_feat_new = np.repeat(np.array(test_X), 26, axis=1)
@@ -73,7 +73,7 @@ print(Y_train.shape)
 
 #Models we will use
 # logistic = linear_model.LogisticRegression(max_iter=4000)
-neural_net = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(7, 5, 3, 2), random_state=1)
+neural_net = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(7, 5, 3, 2), random_state=1, max_iter=1000000)
 dbn = UnsupervisedDBN(hidden_layers_structure=[256, 512],
                       batch_size=10,
                       learning_rate_rbm=0.06,

@@ -1,6 +1,6 @@
 """
 ==============================================================
-Deep Belief Network features for digit classification
+Deep Belief Network features for Satellite Image classification which replicated DeepSAT paper
 ==============================================================
 
 Adapted from http://scikit-learn.org/stable/auto_examples/neural_networks/plot_rbm_logistic_classification.html#sphx-glr-auto-examples-neural-networks-plot-rbm-logistic-classification-py
@@ -41,7 +41,7 @@ def prepare_data():
     cols = ["glcm_contrast_Scaled", "glcm_dissimilarity_Scaled", "glcm_homogeneity_Scaled", "glcm_energy_Scaled",
             "glcm_correlation_Scaled", "glcm_ASM_Scaled"]
 
-    train_X = train[cols].iloc[:60000, :]
+    train_X = train[cols].iloc[:80000, :]
     test_X = test[cols]
 
     def convert(x):
@@ -56,7 +56,7 @@ def prepare_data():
     train = train.drop(['Class_x'], axis=1)
     test = test.drop(['Class_x'], axis=1)
 
-    train_Y = train.iloc[:60000, :]['Class']
+    train_Y = train.iloc[:80000, :]['Class']
     test_Y = test['Class']
     train_feat_new = np.repeat(np.array(train_X), 26, axis=1)
     test_feat_new = np.repeat(np.array(test_X), 26, axis=1)

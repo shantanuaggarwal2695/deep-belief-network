@@ -41,7 +41,7 @@ def prepare_data():
             "glcm_correlation_Scaled", "glcm_ASM_Scaled"]
 
     train_X = train[cols].iloc[:5000, :]
-    test_X = test[cols]
+    test_X = test[cols].iloc[:5000, :]
 
     def convert(x):
         if x == -1:

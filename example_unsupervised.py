@@ -25,6 +25,7 @@ import numpy as np
 
 from scipy.ndimage import convolve
 from sklearn import linear_model, datasets, metrics
+from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from dbn.models import UnsupervisedDBN # use "from dbn.tensorflow import SupervisedDBNClassification" for computations on TensorFlow
@@ -71,7 +72,8 @@ print(X_train.shape)
 print(Y_train.shape)
 
 #Models we will use
-logistic = linear_model.LogisticRegression(max_iter=4000)
+# logistic = linear_model.LogisticRegression(max_iter=4000)
+neural_net = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(7, 5, 3, 2), random_state=1)
 dbn = UnsupervisedDBN(hidden_layers_structure=[256, 512],
                       batch_size=10,
                       learning_rate_rbm=0.06,
@@ -79,11 +81,11 @@ dbn = UnsupervisedDBN(hidden_layers_structure=[256, 512],
                       activation_function='sigmoid')
 
 classifier = Pipeline(steps=[('dbn', dbn),
-                             ('logistic', logistic)])
+                             ('neural_net', neural_net)])
 
 ###############################################################################
 # Training
-logistic.C = 6000.0
+# logistic.C = 6000.0
 
 # Training RBM-Logistic Pipeline
 classifier.fit(X_train, Y_train)
@@ -96,12 +98,12 @@ logistic_classifier.fit(X_train, Y_train)
 # Evaluation
 
 print()
-print("Logistic regression using RBM features:\n%s\n" % (
+print("Neural Net using RBM features:\n%s\n" % (
     metrics.classification_report(
         Y_test,
         classifier.predict(X_test))))
 
-print("Logistic regression using raw pixel features:\n%s\n" % (
+print("Neural net using raw pixel features:\n%s\n" % (
     metrics.classification_report(
         Y_test,
         logistic_classifier.predict(X_test))))

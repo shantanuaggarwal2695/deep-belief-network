@@ -41,7 +41,7 @@ def prepare_data():
             "glcm_correlation_Scaled", "glcm_ASM_Scaled"]
 
     train_X = train[cols].iloc[:5000, :]
-    test_X = test[cols].iloc[:5000, :]
+    test_X = test[cols]
 
     def convert(x):
         if x == -1:
@@ -55,7 +55,7 @@ def prepare_data():
     train = train.drop(['Class_x'], axis=1)
     test = test.drop(['Class_x'], axis=1)
 
-    train_Y = train['Class']
+    train_Y = train['Class'].iloc[:5000, :]
     test_Y = test['Class']
     # train_feat_new = np.repeat(np.array(train_X), 26, axis=1)
     # test_feat_new = np.repeat(np.array(test_X), 26, axis=1)

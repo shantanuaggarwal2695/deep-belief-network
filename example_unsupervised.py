@@ -62,41 +62,6 @@ def prepare_data():
 
     return train_feat_new, test_feat_new, train_Y, test_Y
 
-def nudge_dataset(X, Y):
-    """
-    This produces a dataset 5 times bigger than the original one,
-    by moving the 8x8 images in X around by 1px to left, right, down, up
-    """
-    direction_vectors = [
-        [[0, 1, 0],
-         [0, 0, 0],
-         [0, 0, 0]],
-
-        [[0, 0, 0],
-         [1, 0, 0],
-         [0, 0, 0]],
-
-        [[0, 0, 0],
-         [0, 0, 1],
-         [0, 0, 0]],
-
-        [[0, 0, 0],
-         [0, 0, 0],
-         [0, 1, 0]]]
-
-    shift = lambda x, w: convolve(x.reshape((8, 8)), mode='constant',
-                                  weights=w).ravel()
-    X = np.concatenate([X] +
-                       [np.apply_along_axis(shift, 1, X, vector)
-                        for vector in direction_vectors])
-    Y = np.concatenate([Y for _ in range(5)], axis=0)
-    return X, Y
-
-# Load Data
-# digits = datasets.load_digits()
-# X = np.asarray(digits.data, 'float32')
-# # X, Y = nudge_dataset(X, digits.target)
-# X, Y =
 
 X_train, Y_train, X_test, Y_test = prepare_data()
 X_train = (X_train - np.min(X_train, 0)) / (np.max(X_train, 0) + 0.0001)  # 0-1 scaling
@@ -105,40 +70,40 @@ Y_train = (Y_train - np.min(Y_train, 0)) / (np.max(Y_train, 0) + 0.0001)  # 0-1 
 print(X_train.shape)
 print(Y_train.shape)
 
-# Models we will use
-# logistic = linear_model.LogisticRegression()
-# dbn = UnsupervisedDBN(hidden_layers_structure=[256, 512],
-#                       batch_size=10,
-#                       learning_rate_rbm=0.06,
-#                       n_epochs_rbm=20,
-#                       activation_function='sigmoid')
-#
-# classifier = Pipeline(steps=[('dbn', dbn),
-#                              ('logistic', logistic)])
-#
-# ###############################################################################
-# # Training
-# logistic.C = 6000.0
-#
-# # Training RBM-Logistic Pipeline
-# classifier.fit(X_train, Y_train)
-#
-# # Training Logistic regression
-# logistic_classifier = linear_model.LogisticRegression(C=100.0)
-# logistic_classifier.fit(X_train, Y_train)
-#
-# ###############################################################################
-# # Evaluation
-#
-# print()
-# print("Logistic regression using RBM features:\n%s\n" % (
-#     metrics.classification_report(
-#         Y_test,
-#         classifier.predict(X_test))))
-#
-# print("Logistic regression using raw pixel features:\n%s\n" % (
-#     metrics.classification_report(
-#         Y_test,
-#         logistic_classifier.predict(X_test))))
+#Models we will use
+logistic = linear_model.LogisticRegression()
+dbn = UnsupervisedDBN(hidden_layers_structure=[256, 512],
+                      batch_size=10,
+                      learning_rate_rbm=0.06,
+                      n_epochs_rbm=20,
+                      activation_function='sigmoid')
+
+classifier = Pipeline(steps=[('dbn', dbn),
+                             ('logistic', logistic)])
 
 ###############################################################################
+# Training
+logistic.C = 6000.0
+
+# Training RBM-Logistic Pipeline
+classifier.fit(X_train, Y_train)
+
+# Training Logistic regression
+logistic_classifier = linear_model.LogisticRegression(C=100.0)
+logistic_classifier.fit(X_train, Y_train)
+
+###############################################################################
+# Evaluation
+
+print()
+print("Logistic regression using RBM features:\n%s\n" % (
+    metrics.classification_report(
+        Y_test,
+        classifier.predict(X_test))))
+
+print("Logistic regression using raw pixel features:\n%s\n" % (
+    metrics.classification_report(
+        Y_test,
+        logistic_classifier.predict(X_test))))
+
+##############################################################################

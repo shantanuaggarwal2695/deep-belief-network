@@ -63,9 +63,9 @@ def prepare_data():
     return train_feat_new, test_feat_new, train_Y, test_Y
 
 
-X_train, Y_train, X_test, Y_test = prepare_data()
+X_train, X_test, Y_train, Y_test = prepare_data()
 X_train = (X_train - np.min(X_train, 0)) / (np.max(X_train, 0) + 0.0001)  # 0-1 scaling
-Y_train = (Y_train - np.min(Y_train, 0)) / (np.max(Y_train, 0) + 0.0001)  # 0-1 scaling
+X_test = (Y_train - np.min(Y_train, 0)) / (np.max(Y_train, 0) + 0.0001)  # 0-1 scaling
 
 print(X_train.shape)
 print(Y_train.shape)

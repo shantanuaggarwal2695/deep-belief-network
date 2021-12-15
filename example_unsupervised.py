@@ -40,7 +40,7 @@ def prepare_data():
     cols = ["glcm_contrast_Scaled", "glcm_dissimilarity_Scaled", "glcm_homogeneity_Scaled", "glcm_energy_Scaled",
             "glcm_correlation_Scaled", "glcm_ASM_Scaled"]
 
-    train_X = train[cols]
+    train_X = train[cols].iloc[:5000, :]
     test_X = test[cols]
 
     def convert(x):
@@ -57,15 +57,15 @@ def prepare_data():
 
     train_Y = train['Class']
     test_Y = test['Class']
-    train_feat_new = np.repeat(np.array(train_X), 26, axis=1)
-    test_feat_new = np.repeat(np.array(test_X), 26, axis=1)
+    # train_feat_new = np.repeat(np.array(train_X), 26, axis=1)
+    # test_feat_new = np.repeat(np.array(test_X), 26, axis=1)
 
-    return train_feat_new, test_feat_new, train_Y, test_Y
+    return np.array(train_X), np.array(test_X), np.array(train_Y), np.array(test_Y)
 
 
 X_train, X_test, Y_train, Y_test = prepare_data()
 X_train = (X_train - np.min(X_train, 0)) / (np.max(X_train, 0) + 0.0001)  # 0-1 scaling
-X_test = (Y_train - np.min(Y_train, 0)) / (np.max(Y_train, 0) + 0.0001)  # 0-1 scaling
+X_test = (X_test - np.min(X_test, 0)) / (np.max(X_test, 0) + 0.0001)  # 0-1 scaling
 
 print(X_train.shape)
 print(Y_train.shape)

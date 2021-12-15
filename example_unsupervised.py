@@ -91,44 +91,43 @@ X_train, Y_train, X_test, Y_test = prepare_data()
 X_train = (X_train - np.min(X_train, 0)) / (np.max(X_train, 0) + 0.0001)  # 0-1 scaling
 Y_train = (Y_train - np.min(Y_train, 0)) / (np.max(Y_train, 0) + 0.0001)  # 0-1 scaling
 
-# X_train, X_test, Y_train, Y_test = train_test_split(X, Y,
-#                                                     test_size=0.2,
-#                                                     random_state=0)
+print(X_train.shape)
+print(Y_train.shape)
 
 # Models we will use
-logistic = linear_model.LogisticRegression()
-dbn = UnsupervisedDBN(hidden_layers_structure=[256, 512],
-                      batch_size=10,
-                      learning_rate_rbm=0.06,
-                      n_epochs_rbm=20,
-                      activation_function='sigmoid')
-
-classifier = Pipeline(steps=[('dbn', dbn),
-                             ('logistic', logistic)])
-
-###############################################################################
-# Training
-logistic.C = 6000.0
-
-# Training RBM-Logistic Pipeline
-classifier.fit(X_train, Y_train)
-
-# Training Logistic regression
-logistic_classifier = linear_model.LogisticRegression(C=100.0)
-logistic_classifier.fit(X_train, Y_train)
-
-###############################################################################
-# Evaluation
-
-print()
-print("Logistic regression using RBM features:\n%s\n" % (
-    metrics.classification_report(
-        Y_test,
-        classifier.predict(X_test))))
-
-print("Logistic regression using raw pixel features:\n%s\n" % (
-    metrics.classification_report(
-        Y_test,
-        logistic_classifier.predict(X_test))))
+# logistic = linear_model.LogisticRegression()
+# dbn = UnsupervisedDBN(hidden_layers_structure=[256, 512],
+#                       batch_size=10,
+#                       learning_rate_rbm=0.06,
+#                       n_epochs_rbm=20,
+#                       activation_function='sigmoid')
+#
+# classifier = Pipeline(steps=[('dbn', dbn),
+#                              ('logistic', logistic)])
+#
+# ###############################################################################
+# # Training
+# logistic.C = 6000.0
+#
+# # Training RBM-Logistic Pipeline
+# classifier.fit(X_train, Y_train)
+#
+# # Training Logistic regression
+# logistic_classifier = linear_model.LogisticRegression(C=100.0)
+# logistic_classifier.fit(X_train, Y_train)
+#
+# ###############################################################################
+# # Evaluation
+#
+# print()
+# print("Logistic regression using RBM features:\n%s\n" % (
+#     metrics.classification_report(
+#         Y_test,
+#         classifier.predict(X_test))))
+#
+# print("Logistic regression using raw pixel features:\n%s\n" % (
+#     metrics.classification_report(
+#         Y_test,
+#         logistic_classifier.predict(X_test))))
 
 ###############################################################################

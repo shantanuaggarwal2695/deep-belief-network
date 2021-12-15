@@ -42,10 +42,21 @@ def prepare_data():
 
     train_X = train[cols]
     test_X = test[cols]
+
+    def convert(x):
+        if x == -1:
+            return 1
+        else:
+            return x
+
+    train['Class'] = train['Class_x'].apply(convert)
+    test['Class'] = test['Class_x'].apply(convert)
+
+    train = train.drop(['Class_x'], axis=1)
+    test = test.drop(['Class_x'], axis=1)
+
     train_Y = train['Class']
     test_Y = test['Class']
-
-    # train_X.shape
     train_feat_new = np.repeat(np.array(train_X), 26, axis=1)
     test_feat_new = np.repeat(np.array(test_X), 26, axis=1)
 

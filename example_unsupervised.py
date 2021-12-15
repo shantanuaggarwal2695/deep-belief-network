@@ -71,7 +71,7 @@ print(X_train.shape)
 print(Y_train.shape)
 
 #Models we will use
-logistic = linear_model.LogisticRegression()
+logistic = linear_model.LogisticRegression(max_iter=4000)
 dbn = UnsupervisedDBN(hidden_layers_structure=[256, 512],
                       batch_size=10,
                       learning_rate_rbm=0.06,

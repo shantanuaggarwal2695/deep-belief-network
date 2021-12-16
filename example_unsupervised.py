@@ -58,8 +58,10 @@ def prepare_data():
 
     train_Y = train['Class']
     test_Y = test['Class']
-    train_feat_new = np.repeat(np.array(train_X), 26, axis=1)
-    test_feat_new = np.repeat(np.array(test_X), 26, axis=1)
+    # train_feat_new = np.repeat(np.array(train_X), 26, axis=1)
+    # test_feat_new = np.repeat(np.array(test_X), 26, axis=1)
+    train_feat_new = train_X
+    test_feat_new = test_X
 
     return train_feat_new, test_feat_new, np.array(train_Y), np.array(test_Y)
 

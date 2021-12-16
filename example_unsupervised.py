@@ -22,7 +22,7 @@ from __future__ import print_function
 print(__doc__)
 
 import numpy as np
-
+import time
 from scipy.ndimage import convolve
 from sklearn import linear_model, datasets, metrics
 from sklearn.neural_network import MLPClassifier
@@ -90,11 +90,14 @@ classifier = Pipeline(steps=[('dbn', dbn),
 # logistic.C = 6000.0
 
 # Training RBM-Logistic Pipeline
+t1 = time.time()
 classifier.fit(X_train, Y_train)
+t2 = time.time()
 
+print(t2 - t1)
 # Training Logistic regression
-logistic_classifier = linear_model.LogisticRegression(C=100.0)
-logistic_classifier.fit(X_train, Y_train)
+# logistic_classifier = linear_model.LogisticRegression(C=100.0)
+# logistic_classifier.fit(X_train, Y_train)
 
 ###############################################################################
 # Evaluation

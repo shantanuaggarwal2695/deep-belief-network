@@ -36,8 +36,8 @@ import pandas as pd
 
 
 def prepare_data():
-    train = pd.read_csv("../data/experiments/validation/set_1/train.csv", index_col=False, header=0)
-    test = pd.read_csv("../data/experiments/validation/set_1/test.csv", index_col=False, header=0)
+    train = pd.read_csv("../data/experiments/validation/set_2/train.csv", index_col=False, header=0)
+    test = pd.read_csv("../data/experiments/validation/set_2/test.csv", index_col=False, header=0)
     cols = ["glcm_contrast_Scaled", "glcm_dissimilarity_Scaled", "glcm_homogeneity_Scaled", "glcm_energy_Scaled",
             "glcm_correlation_Scaled", "glcm_ASM_Scaled"]
 
